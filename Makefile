@@ -12,7 +12,7 @@ MASTERLIB_DIR = masterLib
 MASTERLIB = $(MASTERLIB_DIR)/masterLib.a
 
 # Source files and object files
-SRC = main.c
+SRC = main.c utils.c
 OBJ = $(SRC:.c=.o)
 
 # Build the project
@@ -20,7 +20,7 @@ all: $(NAME)
 
 # Rule to create the final executable
 $(NAME): $(OBJ) $(MASTERLIB)
-	$(CC) $(CFLAGS) $(OBJ) -L$(MASTERLIB_DIR) -l:masterLib.a -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -L$(MASTERLIB_DIR) -lmasterLib -o $(NAME)
 
 # Rule to ensure the masterLib is compiled
 $(MASTERLIB):
