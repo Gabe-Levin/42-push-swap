@@ -4,6 +4,7 @@ NAME = fdf
 # Compiler and flags
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
+LDFLAGS = -L$(MASTERLIB_DIR) -lmasterLib
 
 # Directories
 MASTERLIB_DIR = masterLib
@@ -12,7 +13,7 @@ MASTERLIB_DIR = masterLib
 MASTERLIB = $(MASTERLIB_DIR)/masterLib.a
 
 # Source files and object files
-SRC = main.c utils.c
+SRC = main.c pushswap_utils.c stack_utils.c read_input.c
 OBJ = $(SRC:.c=.o)
 
 # Build the project
@@ -20,15 +21,15 @@ all: $(NAME)
 
 # Rule to create the final executable
 $(NAME): $(OBJ) $(MASTERLIB)
-	$(CC) $(CFLAGS) $(OBJ) -L$(MASTERLIB_DIR) -lmasterLib -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(MASTERLIB)
 
 # Rule to ensure the masterLib is compiled
 $(MASTERLIB):
 	@make -C $(MASTERLIB_DIR)
 
 # Compile object files from source
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c $(MASTERLIB)
+	$(CC) $(CFLAGS) -I$(MASTERLIB_DIR) -c $< -o $@
 
 # Clean object files
 clean:

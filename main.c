@@ -6,131 +6,97 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:26:20 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/23 17:03:49 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/25 13:58:24 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-#include <stdlib.h>
 
-t_stack *init_stack()
+void	set_index(t_stack *stack)
 {
-    t_stack *stack;
+	int		i;
+	int		median;
+	t_node	*current;
 
-    stack = (t_stack *)malloc(sizeof(t_stack));
-    if (!stack)
-        return NULL;
-
-    stack->frame = NULL;
-    stack->size = 0;
-
-    return stack;
+	i = 0;
+	median = stack->size / 2;
+	current = stack->node;
+	while (current)
+	{
+		current->index = i;
+		if (i <= median)
+			current->above_median = true;
+		else
+			current->above_median = true;
+		current = current->next;
+		i++;
+	}
 }
 
-t_frame *pop_stack(t_stack *stack)
+t_node *get_max_node(t_node *s)
 {
-    t_frame *temp;
-
-    temp = stack->frame;
-    stack->frame = stack->frame->next;
-    return temp;
-}
-
-void free_stack(t_stack *stack)
-{
-    t_frame *next;
-    t_frame *current;
-
-    current = stack->frame;
-    next = current->next;
-    while (next)
+    t_node *max_node;
+    
+    max_node = s;
+    while(s)
     {
-        next = current->next;
-        free(current);
-        current = next;
+        if (max_node->data > s->data)
+            max_node = s;
+        s = s->next;
     }
+    return max_node;
 }
 
-t_stack *push_to_stack(t_stack *stack, int data)
+void	set_targets_decending(t_node *s1, t_node *s2)
 {
-    t_frame *new_frame;
+	t_node	*current_s2;
+	t_node	*target_node;
+	int		closest_min;
 
-    printf("Data: %d\n", data);
-    new_frame = (t_frame *)malloc(sizeof(t_frame));
-    if (!new_frame)
-        NULL;
-
-    new_frame->data = data;
-    new_frame->next = stack->frame;
-    stack->frame = new_frame;
-    return stack;
+	while (s1)
+	{
+		current_s2 = s2;
+		closest_min = INT_MIN;
+		while (current_s2)
+		{
+			if (current_s2->data > closest_min && current_s2->data < s1->data)
+			{
+				target_node = current_s2;
+				closest_min = current_s2->data;
+			}
+			current_s2 = current_s2->next;
+		}
+		if (closest_min == INT_MIN)
+            s1->target = get_max_node(s2);
+        else
+            s1->target = target_node;
+		current_s2 = s2;
+		s1 = s1->next;
+	}
 }
 
-t_stack *add_frame(t_stack *stack, int data)
+void	init_nodes(t_stack *stack1, t_stack *stack2)
 {
-    t_frame *new_frame;
-    t_frame *last;
-
-    printf("Data: %d\n", data);
-    new_frame = (t_frame *)malloc(sizeof(t_frame));
-    if (!new_frame)
-        NULL;
-
-    new_frame->data = data;
-    new_frame->next = NULL;
-    last = stack->frame;
-    if (last == NULL)
-    {
-        stack->frame = new_frame;
-        return stack;
-    }
-    while (last->next != NULL)
-        last = last->next;
-    last->next = new_frame;
-    return stack;
+	set_index(stack1->node);
+	set_index(stack2->node);
+	set_targets(stack1, stack2);
+	// calc_cost(stack2, stack2);
+	// get_cheapeast(stack1);
 }
 
-t_stack *read_input(t_stack *stack, char *args)
+int	main(int argc, char **argv)
 {
-    char **str;
-    int i;
+	t_stack	*stack1;
+	t_stack	*stack2;
 
-    i = 0;
-    str = ft_split(args, ' ');
-    while (str[i])
-    {
-        stack = add_frame(stack, ft_atoi(str[i]));
-        i++;
-        stack->size++;
-    }
-    return stack;
-}
-
-void print_ll(t_frame *head)
-{
-    while (head)
-    {
-        ft_printf("%d\n", head->data);
-        head = head->next;
-    }
-}
-
-int main(int argc, char **argv)
-{
-    t_stack *stack1;
-    t_stack *stack2;
-
-    if (argc != 2)
-        return -1;
-
-    stack1 = init_stack();
-    stack2 = init_stack();
-
-    if (stack1 == NULL || stack2 == NULL)
-        return -1;
-
-    read_input(stack1, argv[1]);
-    free_stack(stack1);
-    free_stack(stack2);
-    return 1;
+	if (argc != 2)
+		return (-1);
+	stack1 = init_stack();
+	stack2 = init_stack();
+	if (stack1 == NULL || stack2 == NULL)
+		return (-1);
+	read_input(stack1, argv[1]);
+	free_stack(stack1);
+	free_stack(stack2);
+	return (1);
 }
