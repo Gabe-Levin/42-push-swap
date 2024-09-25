@@ -6,7 +6,7 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:26:20 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/25 13:58:24 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/25 17:46:46 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,32 @@ void	set_index(t_stack *stack)
 	current = stack->node;
 	while (current)
 	{
+		ft_printf("index: %d\n", i);
 		current->index = i;
 		if (i <= median)
 			current->above_median = true;
 		else
-			current->above_median = true;
+			current->above_median = false;
 		current = current->next;
 		i++;
 	}
 }
 
-t_node *get_max_node(t_node *s)
+t_node	*get_max_node(t_node *s)
 {
-    t_node *max_node;
-    
-    max_node = s;
-    while(s)
-    {
-        if (max_node->data > s->data)
-            max_node = s;
-        s = s->next;
-    }
-    return max_node;
+	t_node	*max_node;
+
+	max_node = s;
+	while (s)
+	{
+		if (max_node->data < s->data)
+			max_node = s;
+		s = s->next;
+	}
+	return (max_node);
 }
 
-void	set_targets_decending(t_node *s1, t_node *s2)
+void	set_dec_targets(t_node *s1, t_node *s2)
 {
 	t_node	*current_s2;
 	t_node	*target_node;
@@ -67,20 +68,55 @@ void	set_targets_decending(t_node *s1, t_node *s2)
 			current_s2 = current_s2->next;
 		}
 		if (closest_min == INT_MIN)
-            s1->target = get_max_node(s2);
-        else
-            s1->target = target_node;
+			s1->target = get_max_node(s2);
+		else
+			s1->target = target_node;
 		current_s2 = s2;
 		s1 = s1->next;
 	}
 }
 
+int	ft_abs(int x)
+{
+	if (x < 0)
+		return (x * -1);
+	return (x);
+}
+
+void	calc_costs(t_stack *stack)
+{
+	int		rot_cost_a;
+	int		rot_cost_b;
+	t_node	*current;
+
+	rot_cost_a = 0;
+	rot_cost_b = 0;
+    current = stack->node;
+	while (current)
+	{
+		if (current->above_median)
+			rot_cost_a = current->index;
+		else
+			rot_cost_a = stack->size - current->index;
+		if (current->target->above_median)
+			rot_cost_b = current->target->index;
+		else
+			rot_cost_b = stack->size - current->target->index;
+		if ((current->above_median && current->target->above_median)
+			|| (!current->above_median && !current->target->above_median))
+			current->push_cost = ft_abs(rot_cost_b - rot_cost_a);
+		else
+			current->push_cost = rot_cost_b + rot_cost_a;
+		current = current->next;
+	}
+}
+
 void	init_nodes(t_stack *stack1, t_stack *stack2)
 {
-	set_index(stack1->node);
-	set_index(stack2->node);
-	set_targets(stack1, stack2);
-	// calc_cost(stack2, stack2);
+	set_index(stack1);
+	set_index(stack2);
+	set_dec_targets(stack1->node, stack2->node);
+	calc_costs(stack1);
 	// get_cheapeast(stack1);
 }
 

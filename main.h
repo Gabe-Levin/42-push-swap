@@ -6,7 +6,7 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:26:38 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/25 13:52:25 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/25 15:38:42 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_node
 	int				push_cost;
 	bool			above_median;
 	bool			cheapest;
-	struct s_node	target;
+	struct s_node	*target;
 	struct s_node	*next;
 }					t_node;
 
