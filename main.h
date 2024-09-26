@@ -6,7 +6,7 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:26:38 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/25 15:38:42 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/26 18:01:24 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,25 @@ void				free_stack(t_stack *stack);
 t_stack				*push_to_stack(t_stack *stack, int data);
 t_node				*pop_stack(t_stack *stack);
 t_stack				*read_input(t_stack *stack, char *args);
+void				set_index(t_stack *stack);
+t_node				*get_max_node(t_node *s);
+int					get_bigger_val(int x, int y);
+void				calc_costs(t_stack *stack1, t_stack *stack2);
+void				init_nodes(t_stack *stack1, t_stack *stack2);
 
+void				sa(t_stack *stack1);
+void				sb(t_stack *stack2);
+void				ss(t_stack *stack1, t_stack *stack2);
+void				pa(t_stack *stack1, t_stack *stack2);
+void				pb(t_stack *stack2, t_stack *stack1);
+void				ra(t_stack *stack1);
+void				rb(t_stack *stack2);
+void				rr(t_stack *stack1, t_stack *stack2);
+void				rra(t_stack *stack1);
+void				rrb(t_stack *stack2);
+void				rrr(t_stack *stack1, t_stack *stack2);
+
+void				set_dec_targets(t_node *s1, t_node *s2);
 void				print_ll(t_node *head);
 
 #endif

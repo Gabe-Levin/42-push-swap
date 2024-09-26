@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   pushswap_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:13:01 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/25 12:31:03 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/26 18:13:53 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,21 @@ void	swap_stack(t_stack *stack)
 	stack->node = second;
 }
 
+void	sa(t_stack *stack1)
+{
+	ft_printf("sa\n");
+	swap_stack(stack1);
+}
+
+void	sb(t_stack *stack2)
+{
+	ft_printf("sb\n");
+	swap_stack(stack2);
+}
+
 void	ss(t_stack *stack1, t_stack *stack2)
 {
+	ft_printf("ss\n");
 	swap_stack(stack1);
 	swap_stack(stack2);
 }
@@ -48,6 +61,17 @@ void	push_stack(t_stack *stack1, t_stack *stack2)
 	stack1->size++;
 }
 
+void	pa(t_stack *stack1, t_stack *stack2)
+{
+	ft_printf("pa\n");
+	push_stack(stack1, stack2);
+}
+void	pb(t_stack *stack2, t_stack *stack1)
+{
+	ft_printf("pb\n");
+	push_stack(stack2, stack1);
+}
+
 void	rotate_stack(t_stack *stack)
 {
 	t_node	*temp;
@@ -62,8 +86,21 @@ void	rotate_stack(t_stack *stack)
 	next->next->next = NULL;
 }
 
+void	ra(t_stack *stack1)
+{
+	ft_printf("ra\n");
+	rotate_stack(stack1);
+}
+
+void	rb(t_stack *stack2)
+{
+	ft_printf("rb\n");
+	rotate_stack(stack2);
+}
+
 void	rr(t_stack *stack1, t_stack *stack2)
 {
+	ft_printf("rr");
 	rotate_stack(stack1);
 	rotate_stack(stack2);
 }
@@ -79,8 +116,21 @@ void	rev_rotate_stack(t_stack *stack)
 	next->next = NULL;
 }
 
+void	rra(t_stack *stack1)
+{
+	ft_printf("rra\n");
+	rev_rotate_stack(stack1);
+}
+
+void	rrb(t_stack *stack2)
+{
+	ft_printf("rrb\n");
+	rev_rotate_stack(stack2);
+}
+
 void	rrr(t_stack *stack1, t_stack *stack2)
 {
+	ft_printf("rrr\n");
 	rev_rotate_stack(stack1);
 	rev_rotate_stack(stack2);
 }

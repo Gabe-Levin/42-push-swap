@@ -6,118 +6,134 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:26:20 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/25 17:46:46 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/26 20:23:02 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	set_index(t_stack *stack)
+int	is_stack_sorted(t_stack *stack)
 {
-	int		i;
-	int		median;
 	t_node	*current;
+	t_node	*prev;
 
-	i = 0;
-	median = stack->size / 2;
-	current = stack->node;
+	prev = stack->node;
+	current = stack->node->next;
 	while (current)
 	{
-		ft_printf("index: %d\n", i);
-		current->index = i;
-		if (i <= median)
-			current->above_median = true;
-		else
-			current->above_median = false;
+		if (prev->data > current->data)
+			return (0);
+		prev = current;
 		current = current->next;
+	}
+	return (1);
+}
+
+void	sort_3_stack(t_stack *stack)
+{
+	t_node	*max_node;
+
+	max_node = get_max_node(stack->node);
+	if (max_node->index != 2)
+	{
+		if (max_node->index == 1)
+			ra(stack);
+		if (max_node->index == 0)
+			rra(stack);
+	}
+	if (!is_stack_sorted(stack))
+		sa(stack);
+}
+
+get_cheapest_node(t_stack *stack)
+{
+	t_node	*current;
+	t_node	*cheapest;
+
+	current = stack->node;
+	cheapest = stack->node;
+	while (current)
+	{
+		if (current->push_cost < cheapest->push_cost)
+			cheapest = current;
+		current = current->next;
+	}
+}
+
+int	get_smaller_val(int x, int y)
+{
+	if (x <= y)
+		return (x);
+	else
+		return (y);
+}
+
+void	conduct_single_rot(t_stack *stack, int n, int s_name)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		if (s_name == 1)
+			ra(stack);
+		else
+			rb(stack);
 		i++;
 	}
 }
 
-t_node	*get_max_node(t_node *s)
+void	transfer_node(t_stack *stack1, t_stack *stack2)
 {
-	t_node	*max_node;
+	t_node	*node;
+	t_node	*target;
+	int		shared_rots;
+	int		single_rots;
+	int		i;
 
-	max_node = s;
-	while (s)
+	node = get_cheapest_node(stack1);
+	target = node->target;
+	if ((node->above_median && target->above_median))
 	{
-		if (max_node->data < s->data)
-			max_node = s;
-		s = s->next;
-	}
-	return (max_node);
-}
-
-void	set_dec_targets(t_node *s1, t_node *s2)
-{
-	t_node	*current_s2;
-	t_node	*target_node;
-	int		closest_min;
-
-	while (s1)
-	{
-		current_s2 = s2;
-		closest_min = INT_MIN;
-		while (current_s2)
+		shared_rots = get_smaller_val(node->index, target->index);
+		if ((node->index - shared_rots) > 0)
 		{
-			if (current_s2->data > closest_min && current_s2->data < s1->data)
+			single_rots = node->index - shared_rots;
+			i = 0;
+			while (i < single_rots)
 			{
-				target_node = current_s2;
-				closest_min = current_s2->data;
+				ra(stack1);
+				i++;
 			}
-			current_s2 = current_s2->next;
 		}
-		if (closest_min == INT_MIN)
-			s1->target = get_max_node(s2);
 		else
-			s1->target = target_node;
-		current_s2 = s2;
-		s1 = s1->next;
+		{
+			single_rots = target->index - shared_rots;
+			i = 0;
+			while (i < single_rots)
+			{
+				rb(stack1);
+				i++;
+			}
+		}
 	}
-}
-
-int	ft_abs(int x)
-{
-	if (x < 0)
-		return (x * -1);
-	return (x);
-}
-
-void	calc_costs(t_stack *stack)
-{
-	int		rot_cost_a;
-	int		rot_cost_b;
-	t_node	*current;
-
-	rot_cost_a = 0;
-	rot_cost_b = 0;
-    current = stack->node;
-	while (current)
+	else if (!node->above_median && !target->above_median)
 	{
-		if (current->above_median)
-			rot_cost_a = current->index;
-		else
-			rot_cost_a = stack->size - current->index;
-		if (current->target->above_median)
-			rot_cost_b = current->target->index;
-		else
-			rot_cost_b = stack->size - current->target->index;
-		if ((current->above_median && current->target->above_median)
-			|| (!current->above_median && !current->target->above_median))
-			current->push_cost = ft_abs(rot_cost_b - rot_cost_a);
-		else
-			current->push_cost = rot_cost_b + rot_cost_a;
-		current = current->next;
+		shared_rots = get_bigger_val(node->index, target->index);
 	}
 }
 
-void	init_nodes(t_stack *stack1, t_stack *stack2)
+void	sort_stack(t_stack *stack1, t_stack *stack2)
 {
-	set_index(stack1);
-	set_index(stack2);
-	set_dec_targets(stack1->node, stack2->node);
-	calc_costs(stack1);
-	// get_cheapeast(stack1);
+	pb(stack2, stack1);
+	pb(stack2, stack1);
+	while (stack1->size != 3)
+	{
+		init_nodes(stack1, stack2);
+		transfer_node(stack1, stack2);
+	}
+	if (stack1->size == 3 && !is_stack_sorted(stack1))
+		sort_3_stack(stack1);
 }
 
 int	main(int argc, char **argv)
