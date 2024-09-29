@@ -6,7 +6,7 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:22:03 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/26 17:22:17 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/29 17:10:39 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	set_index(t_stack *stack)
 	current = stack->node;
 	while (current)
 	{
-		ft_printf("index: %d\n", i);
 		current->index = i;
 		if (i <= median)
 			current->above_median = true;
@@ -48,7 +47,7 @@ t_node	*get_max_node(t_node *s)
 	return (max_node);
 }
 
-void	set_dec_targets(t_node *s1, t_node *s2)
+void	set_decending_targets(t_node *s1, t_node *s2)
 {
 	t_node	*current_s2;
 	t_node	*target_node;
@@ -76,14 +75,14 @@ void	set_dec_targets(t_node *s1, t_node *s2)
 	}
 }
 
-int get_bigger_val(int x, int y)
+int	get_bigger_val(int x, int y)
 {
 	if (x > y)
-		return x;
+		return (x);
 	else if (y > x)
-		return y;
+		return (y);
 	else
-		return x;
+		return (x);
 }
 
 void	calc_costs(t_stack *stack1, t_stack *stack2)
@@ -114,11 +113,35 @@ void	calc_costs(t_stack *stack1, t_stack *stack2)
 	}
 }
 
+void	print_ll_wData(t_stack *stack1)
+{
+	t_node	*current;
+
+	current = stack1->node;
+	while (current)
+	{
+		printf("----------\n");
+		printf("index: %d\n", current->index);
+		printf("data: %d\n", current->data);
+		printf("above_median: %d\n", current->above_median);
+		printf("push_cost: %d\n", current->push_cost);
+		if (current->target)
+		{
+			printf("target_index: %d\n", current->target->index);
+			printf("target_data: %d\n", current->target->data);
+		}
+		printf("next: %p\n", current->next);
+		current = current->next;
+	}
+}
+
 void	init_nodes(t_stack *stack1, t_stack *stack2)
 {
 	set_index(stack1);
 	set_index(stack2);
-	set_dec_targets(stack1->node, stack2->node);
+	set_decending_targets(stack1->node, stack2->node);
 	calc_costs(stack1, stack2);
+	// print_ll_wData(stack1);
+	// print_ll_wData(stack2);
 	// get_cheapeast(stack1);
 }

@@ -1,5 +1,5 @@
 # Project Name
-NAME = fdf
+NAME = push_swap
 
 # Compiler and flags
 CC = gcc

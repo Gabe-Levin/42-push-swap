@@ -6,7 +6,7 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:26:38 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/26 18:01:24 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/28 17:40:17 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_stack				*add_node(t_stack *stack, int data);
 void				free_stack(t_stack *stack);
 t_stack				*push_to_stack(t_stack *stack, int data);
 t_node				*pop_stack(t_stack *stack);
-t_stack				*read_input(t_stack *stack, char *args);
+t_stack				*read_input(t_stack *stack, int argc, char **argv);
 void				set_index(t_stack *stack);
 t_node				*get_max_node(t_node *s);
 int					get_bigger_val(int x, int y);

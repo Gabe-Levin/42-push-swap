@@ -6,7 +6,7 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:50:33 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/26 18:13:56 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/28 15:55:47 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ t_stack	*add_node(t_stack *stack, int data)
 	t_node	*new_node;
 	t_node	*last;
 
-	printf("Data: %d\n", data);
 	new_node = (t_node *)malloc(sizeof(t_node));
 	if (!new_node)
 		NULL;
@@ -80,7 +79,6 @@ t_stack	*push_to_stack(t_stack *stack, int data)
 {
 	t_node	*new_node;
 
-	printf("Data: %d\n", data);
 	new_node = (t_node *)malloc(sizeof(t_node));
 	if (!new_node)
 		NULL;

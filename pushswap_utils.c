@@ -6,7 +6,7 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:13:01 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/26 18:13:53 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/29 17:04:04 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	swap_stack(t_stack *stack)
 	t_node	*first;
 	t_node	*second;
 
-	if (stack->node == NULL)
+	if (stack->node == NULL || stack->node->next == NULL)
 		return ;
 	first = stack->node;
 	second = first->next;
@@ -77,6 +77,8 @@ void	rotate_stack(t_stack *stack)
 	t_node	*temp;
 	t_node	*next;
 
+	if (stack->node == NULL || stack->node->next == NULL)
+		return ;
 	temp = stack->node;
 	stack->node = stack->node->next;
 	next = stack->node->next;
@@ -100,20 +102,29 @@ void	rb(t_stack *stack2)
 
 void	rr(t_stack *stack1, t_stack *stack2)
 {
-	ft_printf("rr");
+	ft_printf("rr\n");
 	rotate_stack(stack1);
 	rotate_stack(stack2);
 }
 
 void	rev_rotate_stack(t_stack *stack)
 {
-	t_node	*next;
+	t_node	*last;
+	t_node	*second_to_last;
+	
 
-	next = stack->node->next;
-	while (next->next->next)
-		next = next->next;
-	push_to_stack(stack, next->next->data);
-	next->next = NULL;
+	if (stack->node == NULL || stack->node->next == NULL)
+		return ;
+	last = stack->node;
+	second_to_last = NULL;
+	while (last->next)
+	{
+		second_to_last = last;
+		last = last->next;
+	}
+	last->next = stack->node;
+	stack->node = last;
+	second_to_last->next = NULL;
 }
 
 void	rra(t_stack *stack1)
