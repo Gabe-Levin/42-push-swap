@@ -6,7 +6,7 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:13:01 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/29 17:04:04 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/30 16:44:58 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	rotate_stack(t_stack *stack)
 	t_node	*temp;
 	t_node	*next;
 
+	
 	if (stack->node == NULL || stack->node->next == NULL)
 		return ;
 	temp = stack->node;

@@ -6,7 +6,7 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:22:03 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/29 17:10:39 by glevin           ###   ########.fr       */
+/*   Updated: 2024/09/30 15:50:17 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,20 @@ t_node	*get_max_node(t_node *s)
 	return (max_node);
 }
 
+t_node	*get_min_node(t_node *s)
+{
+	t_node	*min_node;
+
+	min_node = s;
+	while (s)
+	{
+		if (min_node->data > s->data)
+			min_node = s;
+		s = s->next;
+	}
+	return (min_node);
+}
+
 void	set_decending_targets(t_node *s1, t_node *s2)
 {
 	t_node	*current_s2;
@@ -68,6 +82,34 @@ void	set_decending_targets(t_node *s1, t_node *s2)
 		}
 		if (closest_min == INT_MIN)
 			s1->target = get_max_node(s2);
+		else
+			s1->target = target_node;
+		current_s2 = s2;
+		s1 = s1->next;
+	}
+}
+
+void	set_ascending_targets(t_node *s1, t_node *s2)
+{
+	t_node	*current_s2;
+	t_node	*target_node;
+	int		closest_max;
+
+	while (s1)
+	{
+		current_s2 = s2;
+		closest_max = INT_MAX;
+		while (current_s2)
+		{
+			if (current_s2->data < closest_max && current_s2->data < s1->data)
+			{
+				target_node = current_s2;
+				closest_max = current_s2->data;
+			}
+			current_s2 = current_s2->next;
+		}
+		if (closest_max == INT_MAX)
+			s1->target = get_min_node(s2);
 		else
 			s1->target = target_node;
 		current_s2 = s2;
@@ -135,13 +177,18 @@ void	print_ll_wData(t_stack *stack1)
 	}
 }
 
-void	init_nodes(t_stack *stack1, t_stack *stack2)
+void	init_nodes_a_to_b(t_stack *stack1, t_stack *stack2)
 {
 	set_index(stack1);
 	set_index(stack2);
 	set_decending_targets(stack1->node, stack2->node);
 	calc_costs(stack1, stack2);
-	// print_ll_wData(stack1);
-	// print_ll_wData(stack2);
-	// get_cheapeast(stack1);
+}
+
+void	init_nodes_b_to_a(t_stack *stack1, t_stack *stack2)
+{
+	set_index(stack1);
+	set_index(stack2);
+	set_ascending_targets(stack2->node, stack1->node);
+	calc_costs(stack2, stack1);
 }
