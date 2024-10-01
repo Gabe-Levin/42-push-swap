@@ -1,16 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pushswap_descending.c                              :+:      :+:    :+:   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:53:43 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/30 16:53:42 by glevin           ###   ########.fr       */
+/*   Updated: 2024/10/01 12:28:22 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+void	sort_stack(t_stack *stack1, t_stack *stack2)
+{
+	pb(stack2, stack1);
+	pb(stack2, stack1);
+	while (stack1->size > 0)
+	{
+		init_nodes_a_to_b(stack1, stack2);
+		transfer_node_a_to_b(stack1, stack2);
+	}
+
+	set_index(stack2);
+	rotate_max_to_top(stack2);
+	while (stack2->size > 0)
+		pa(stack1, stack2);
+
+}
 
 void	rot_nodes_above_median(t_stack *stack1, t_stack *stack2,
 		t_node *cheapest, t_node *target)

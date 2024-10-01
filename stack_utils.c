@@ -6,21 +6,12 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:50:33 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/28 15:55:47 by glevin           ###   ########.fr       */
+/*   Updated: 2024/10/01 12:27:07 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-// TODO: delete me
-void	print_ll(t_node *head)
-{
-	while (head)
-	{
-		ft_printf("%d\n", head->data);
-		head = head->next;
-	}
-}
 t_stack	*init_stack(void)
 {
 	t_stack	*stack;
@@ -75,24 +66,18 @@ void	free_stack(t_stack *stack)
 	}
 }
 
-t_stack	*push_to_stack(t_stack *stack, int data)
+t_node	*get_cheapest_node(t_stack *stack)
 {
-	t_node	*new_node;
+	t_node	*current;
+	t_node	*cheapest;
 
-	new_node = (t_node *)malloc(sizeof(t_node));
-	if (!new_node)
-		NULL;
-	new_node->data = data;
-	new_node->next = stack->node;
-	stack->node = new_node;
-	return (stack);
-}
-
-t_node	*pop_stack(t_stack *stack)
-{
-	t_node *temp;
-
-	temp = stack->node;
-	stack->node = stack->node->next;
-	return (temp);
+	current = stack->node;
+	cheapest = stack->node;
+	while (current)
+	{
+		if (current->push_cost < cheapest->push_cost)
+			cheapest = current;
+		current = current->next;
+	}
+	return (cheapest);
 }

@@ -6,7 +6,7 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:57:43 by glevin            #+#    #+#             */
-/*   Updated: 2024/09/29 18:03:05 by glevin           ###   ########.fr       */
+/*   Updated: 2024/10/01 12:23:12 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_stack	*read_multiple_args(t_stack *stack, int argc, char **argv)
 	while (i < argc)
 	{
 		stack = add_node(stack, ft_atoi(argv[i]));
-        stack->size++;
+		stack->size++;
 		i++;
 	}
 	return (stack);
