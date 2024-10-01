@@ -6,47 +6,39 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:15:43 by glevin            #+#    #+#             */
-/*   Updated: 2024/10/01 12:44:24 by glevin           ###   ########.fr       */
+/*   Updated: 2024/10/01 13:36:22 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-t_stack	*push_to_stack(t_stack *stack, int data)
-{
-	t_node	*new_node;
-
-	new_node = (t_node *)malloc(sizeof(t_node));
-	if (!new_node)
-		NULL;
-	new_node->data = data;
-	new_node->next = stack->node;
-	stack->node = new_node;
-	return (stack);
-}
-
 t_node	*pop_stack(t_stack *stack)
 {
 	t_node	*temp;
 
+	if (stack->size == 0 || stack->node == NULL)
+		return (NULL);
 	temp = stack->node;
 	stack->node = stack->node->next;
+	stack->size--;
 	return (temp);
 }
 
 void	push_stack(t_stack *stack1, t_stack *stack2)
 {
-	t_node	*temp;
+	t_node	*t_node;
 
-	temp = pop_stack(stack2);
+	t_node = pop_stack(stack2);
 	if (stack1->size == 0)
 	{
-		temp->next = NULL;
-		stack1->node = temp;
+		t_node->next = NULL;
+		stack1->node = t_node;
 	}
 	else
-		push_to_stack(stack1, temp->data);
-	stack2->size--;
+	{
+		t_node->next = stack1->node;
+		stack1->node = t_node;
+	}
 	stack1->size++;
 }
 

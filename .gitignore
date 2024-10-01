@@ -3,3 +3,5 @@
 *.o
 fdf
 push_swap_visualizer/
+test_push_swap.sh
+checker_linux

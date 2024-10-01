@@ -13,8 +13,11 @@ MASTERLIB_DIR = masterLib
 MASTERLIB = $(MASTERLIB_DIR)/masterLib.a
 
 # Source files and object files
-SRC = main.c stack_utils.c operators/push.c operators/swap.c operators/rotate.c operators/rev_rotate.c \
-read_input.c init_nodes.c push_swap.c transfer_nodes.c set_targets.c
+SRC = main.c stack_utils.c operators/push.c operators/swap.c\
+operators/rotate.c operators/rev_rotate.c rotations.c\
+read_input.c init_nodes.c push_swap.c set_targets.c\
+input_validation.c
+
 OBJ = $(SRC:.c=.o)
 
 # Build the project

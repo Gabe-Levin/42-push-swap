@@ -6,7 +6,7 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:22:03 by glevin            #+#    #+#             */
-/*   Updated: 2024/10/01 12:38:02 by glevin           ###   ########.fr       */
+/*   Updated: 2024/10/01 16:29:26 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,4 @@ void	init_nodes_a_to_b(t_stack *stack1, t_stack *stack2)
 	set_index(stack2);
 	set_decending_targets(stack1->node, stack2->node);
 	calc_costs(stack1, stack2);
-}
-
-void	init_nodes_b_to_a(t_stack *stack1, t_stack *stack2)
-{
-	set_index(stack1);
-	set_index(stack2);
-	set_ascending_targets(stack2->node, stack1->node);
-	calc_costs(stack2, stack1);
 }

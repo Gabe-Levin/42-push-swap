@@ -6,11 +6,12 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:57:43 by glevin            #+#    #+#             */
-/*   Updated: 2024/10/01 12:23:12 by glevin           ###   ########.fr       */
+/*   Updated: 2024/10/01 14:41:06 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
 
 t_stack	*read_single_string(t_stack *stack, char *args)
 {
@@ -25,6 +26,13 @@ t_stack	*read_single_string(t_stack *stack, char *args)
 		i++;
 		stack->size++;
 	}
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 	return (stack);
 }
 

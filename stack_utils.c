@@ -6,11 +6,19 @@
 /*   By: glevin <glevin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 12:50:33 by glevin            #+#    #+#             */
-/*   Updated: 2024/10/01 12:27:07 by glevin           ###   ########.fr       */
+/*   Updated: 2024/10/01 13:47:08 by glevin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+int	get_smaller_val(int x, int y)
+{
+	if (x <= y)
+		return (x);
+	else
+		return (y);
+}
 
 t_stack	*init_stack(void)
 {
@@ -34,7 +42,6 @@ t_stack	*add_node(t_stack *stack, int data)
 		NULL;
 	new_node->data = data;
 	new_node->above_median = true;
-	new_node->cheapest = false;
 	new_node->index = 0;
 	new_node->push_cost = 0;
 	new_node->target = NULL;
@@ -57,13 +64,13 @@ void	free_stack(t_stack *stack)
 	t_node	*current;
 
 	current = stack->node;
-	next = current->next;
-	while (next)
+	while (current)
 	{
 		next = current->next;
 		free(current);
 		current = next;
 	}
+	free(stack);
 }
 
 t_node	*get_cheapest_node(t_stack *stack)
